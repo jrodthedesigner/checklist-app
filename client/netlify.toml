@@ -1,0 +1,16 @@
+# Netlify config for the React client.
+# Base directory in Netlify UI: client  ·  Build: npm run build  ·  Publish: client/dist
+
+# Proxy the client's /api/* calls to the Render API so everything is same-origin.
+# >>> Replace REPLACE-WITH-YOUR-RENDER-URL with your real Render service URL. <<<
+[[redirects]]
+  from = "/api/*"
+  to = "https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback so React Router client-side routes resolve.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
