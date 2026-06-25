@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const checklistRoutes = require('./routes/checklists');
+const { seedDatabase } = require('./seed');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,7 +23,23 @@ app.use('/api/checklists', checklistRoutes);
 app.use(errorHandler);
 
 // Start server
-connectDB().then(() => {
+connectDB().then(async () => {
+  // Public-demo self-reset: when DEMO_RESET=true, wipe and re-seed the default
+  // sample data on startup and on a timer, so visitor edits (including anything
+  // inappropriate) don't persist. Leave unset for a normal/private deployment.
+  if (process.env.DEMO_RESET === 'true') {
+    try {
+      await seedDatabase();
+    } catch (err) {
+      console.error('Seed on startup failed:', err.message);
+    }
+    const resetMinutes = Number(process.env.RESET_INTERVAL_MINUTES) || 180;
+    setInterval(() => {
+      seedDatabase().catch((err) => console.error('Scheduled reset failed:', err.message));
+    }, resetMinutes * 60 * 1000);
+    console.log(`Demo reset enabled: on startup + every ${resetMinutes} min`);
+  }
+
   const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

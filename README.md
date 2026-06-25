@@ -7,8 +7,8 @@ real time. Built end to end with the **MERN** stack (MongoDB, Express, React, No
 > Built for the Harvard Extension School *Web Application Development* course, then
 > taken past the assignment into a genuinely polished, production-style app.
 
-<!-- Replace these once deployed -->
-**🔗 Live demo:** _coming soon_ · **📺 Walkthrough:** _coming soon_
+**🔗 Live demo:** https://hes-checklist-app.netlify.app/
+_(Free hosting — the API sleeps when idle, so the first load may take ~30–50s to wake.)_
 
 <!-- Add a screenshot or GIF here: ![Checklist app](docs/screenshot.png) -->
 > _Add a screenshot or short GIF of the dashboard + drag-and-drop here._
