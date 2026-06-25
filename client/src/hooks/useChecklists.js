@@ -153,6 +153,17 @@ const useChecklistStore = create((set, get) => ({
     }
   },
 
+  resetDemo: async () => {
+    try {
+      await checklistAPI.reset()
+      const { data } = await checklistAPI.getAll()
+      set({ checklists: data, currentChecklist: null })
+      toast.success('Demo reset to sample data')
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Failed to reset demo')
+    }
+  },
+
   clearCompleted: async (checklistId) => {
     const prev = get().currentChecklist
     if (!prev) return

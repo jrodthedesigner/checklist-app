@@ -16,8 +16,9 @@ const SORT_OPTIONS = [
 ]
 
 export default function Dashboard() {
-  const { checklists, loading, fetchChecklists, createChecklist, deleteChecklist } = useChecklistStore()
+  const { checklists, loading, fetchChecklists, createChecklist, deleteChecklist, resetDemo } = useChecklistStore()
   const [showCreate, setShowCreate] = useState(false)
+  const [showReset, setShowReset] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState('date')
@@ -66,15 +67,27 @@ export default function Dashboard() {
             </div>
             <h1 className="font-display text-2xl font-bold text-warm-800">Checklists</h1>
           </div>
-          <button
-            onClick={() => setShowCreate(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent-dark text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-accent/20"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            New Checklist
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowReset(true)}
+              className="inline-flex items-center gap-2 px-3 py-2.5 text-warm-500 hover:text-warm-800 text-sm font-medium rounded-xl hover:bg-warm-100 transition-colors"
+              title="Restore the demo to its default sample data"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>
+              <span className="hidden sm:inline">Reset demo</span>
+            </button>
+            <button
+              onClick={() => setShowCreate(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent-dark text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-accent/20"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              New Checklist
+            </button>
+          </div>
         </div>
       </header>
 
@@ -245,6 +258,16 @@ export default function Dashboard() {
         onConfirm={() => deleteChecklist(deleteTarget._id)}
         title="Delete Checklist"
         message={`Delete "${deleteTarget?.title}"? All items will be permanently removed.`}
+      />
+
+      {/* Reset Demo Confirm */}
+      <ConfirmDialog
+        isOpen={showReset}
+        onClose={() => setShowReset(false)}
+        onConfirm={() => resetDemo()}
+        title="Reset demo"
+        message="Restore the demo to its default sample checklists? This clears all current data."
+        confirmLabel="Reset demo"
       />
     </div>
   )

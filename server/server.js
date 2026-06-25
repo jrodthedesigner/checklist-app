@@ -19,6 +19,21 @@ app.use(express.json());
 // Routes
 app.use('/api/checklists', checklistRoutes);
 
+// On-demand reset to the default demo data. Public by default; if RESET_SECRET
+// is set, require a matching `x-reset-secret` header (so only you can trigger it).
+app.post('/api/reset', async (req, res, next) => {
+  try {
+    const secret = process.env.RESET_SECRET;
+    if (secret && req.get('x-reset-secret') !== secret) {
+      return res.status(403).json({ error: 'Reset is restricted.' });
+    }
+    await seedDatabase();
+    res.json({ ok: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Error handling
 app.use(errorHandler);
 

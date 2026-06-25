@@ -14,6 +14,7 @@ export const checklistAPI = {
   updateItem: (id, itemId, data) => api.put(`/checklists/${id}/items/${itemId}`, data),
   deleteItem: (id, itemId) => api.delete(`/checklists/${id}/items/${itemId}`),
   toggleItem: (id, itemId) => api.patch(`/checklists/${id}/items/${itemId}/toggle`),
+  reset: () => api.post('/reset'),
 }
 
 export default api
