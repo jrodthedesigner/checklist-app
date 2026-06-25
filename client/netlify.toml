@@ -2,10 +2,9 @@
 # Base directory in Netlify UI: client  ·  Build: npm run build  ·  Publish: client/dist
 
 # Proxy the client's /api/* calls to the Render API so everything is same-origin.
-# >>> Replace REPLACE-WITH-YOUR-RENDER-URL with your real Render service URL. <<<
 [[redirects]]
   from = "/api/*"
-  to = "https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com/api/:splat"
+  to = "https://checklist-app-68qv.onrender.com/api/:splat"
   status = 200
   force = true
 
